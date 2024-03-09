@@ -15,4 +15,5 @@ app.get("/test", async (req:Request,res:Response)=>{
 
 app.listen(8000, ()=>{ 
     console.log("Server started on localhost:8000 ")
+    console.log('You are connected to the world ')
 })
