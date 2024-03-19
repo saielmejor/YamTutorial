@@ -9,7 +9,8 @@ const AppRoutes = () => {
       <Route path="/" element={<Layout> <HomePage/></Layout>}>
         {" "}
       </Route>
-      <Route path="/user-profile" element={<span>USER PROFILE PAGE </span>}>
+      {/* add a layout and add a userprofilepage  */}
+      <Route path="/user-profile" element={<Layout> <UserProfilePage/></Layout>}>
         {" "}
       </Route>
       <Route path="*" element={<Navigate to="/"></Navigate>}>
