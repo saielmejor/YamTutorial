@@ -38,7 +38,7 @@ export const jwtParse=async(req:Request, res:Response, next: NextFunction)=>{
         }
         req.auth0Id=auth0Id as string ; 
         req.userId=user._id.toString() 
-        next() //call the next function that we finish the middleware
+        next() //call the next function that we finish the middleware 
     }catch(error){ 
         return res.sendStatus(401) 
     }
