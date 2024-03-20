@@ -1,5 +1,4 @@
-import React from "react";
-import PropTypes from "prop-types";
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,19 +9,21 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import LoadingButton from "@/components/LoadingButton";
-const formSchema = z.object({
-  email: z.string().optional(), // add optional,
-  name: z.string().min(1, "name is required"), // needs to have at least one character
-  addressLine1: z.string().min(1, "Address Line 1 is required "),
-  city: z.string().min(1, "City is required"),
-  country: z.string().min(1, "Country is required"),
-});
 
 type UserFormData = z.infer<typeof formSchema>; //z.infer used to detect the type
+const formSchema = z.object({
+  email: z.string().optional(), // add optional,
+  name: z.string().min(1, {message:"name is required"}), // needs to have at least one character
+  addressLine1: z.string().min(1, {message:"Address Line 1 is required "}),
+  city: z.string().min(1,{ message: "City is required"}),
+  country: z.string().min(1, {message:"Country is required"}),
+});
+
 
 type props = {
   onSave: (userProfileData: UserFormData) => void;
@@ -30,8 +31,13 @@ type props = {
 };
 //destructuring to capture onSave and is Loading
 function UserProfileForm({ onSave, isLoading }: props) {
-  const form = useForm<UserFormData>({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues:{
+      name:"" , 
+      addressLine1:"", 
+     country:"", 
+    city:""    }
   });
 
   return (
@@ -66,21 +72,23 @@ function UserProfileForm({ onSave, isLoading }: props) {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} disabled className="bg-white"></Input>
+                <Input placeholder="shadcn" {...field} className="bg-white"/>
               </FormControl>
+              <FormMessage></FormMessage>
             </FormItem>
           )}
         />
-        <div className="flex flex-col md:flex-row gap-4"></div>
+        <div className="flex  md:flex-row gap-4">
         <FormField
           control={form.control}
           name="addressLine1"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex-1">
               <FormLabel>Address</FormLabel>
               <FormControl>
-                <Input {...field} disabled className="bg-white"></Input>
-              </FormControl>
+                <Input {...field} className="bg-white"></Input>
+              </FormControl> 
+              <FormMessage/>
             </FormItem>
           )}
         />
@@ -88,11 +96,12 @@ function UserProfileForm({ onSave, isLoading }: props) {
           control={form.control}
           name="city"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex-1">
               <FormLabel>City </FormLabel>
               <FormControl>
-                <Input {...field} disabled className="bg-white"></Input>
-              </FormControl>
+                <Input {...field} className="bg-white"></Input>
+              </FormControl> 
+              <FormMessage/>
             </FormItem>
           )}
         />
@@ -100,14 +109,18 @@ function UserProfileForm({ onSave, isLoading }: props) {
           control={form.control}
           name="country"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex-1">
               <FormLabel>Country</FormLabel>
               <FormControl>
-                <Input {...field} disabled className="bg-white"></Input>
-              </FormControl>
+                <Input {...field}  className="bg-white"></Input>
+              </FormControl> 
+              <FormMessage/>
             </FormItem>
           )}
         />
+          
+        </div>
+      
         {isLoading ? (
           <LoadingButton />
         ) : (
