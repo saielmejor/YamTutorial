@@ -8,8 +8,11 @@ export default function UserProfilePage() {
 if(isGetLoading){ 
     return <span> Loading.... </span>
 }
-
-  // it will call API for updateuser and loading
-  return <UserProfileForm onSave={updateUser} isLoading={isUpdateLoading} />;
+// add new if statement 
+if(!currentUser) { 
+  return <span>Unable to load user profile </span>
 }
- 
+  // it will call API for updateuser and loading
+  return <UserProfileForm currentUser={currentUser} onSave={updateUser} isLoading={isUpdateLoading} />;
+}
+  
