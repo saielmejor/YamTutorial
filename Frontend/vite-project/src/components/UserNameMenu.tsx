@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
 import { CircleUserRound } from "lucide-react";
-import React from "react";
+
 import { Link } from "react-router-dom";
 import { DropdownMenuItem } from "./ui/dropdown-menu";
 import { Separator } from "./ui/separator";
