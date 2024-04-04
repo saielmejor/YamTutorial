@@ -3,4 +3,5 @@ node_modules/
 .env  
 
 dist/ 
-# avoid distribution  folder 
+# avoid distribution  folder  
+logs
