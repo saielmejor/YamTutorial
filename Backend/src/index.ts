@@ -20,7 +20,7 @@ app.get("/health",async(req:Request,res:Response)=>{
     res.send({message:"health OK!"})
 })
 //define an endpoint 
-app.use("api/my/user",myUserRoute)
+app.use("/api/my/user",myUserRoute)
 
 app.listen(8000, ()=>{ 
     console.log("Server started on localhost:8000 ")

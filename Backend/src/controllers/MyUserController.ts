@@ -50,15 +50,15 @@ const getCurrentUser = async (req: Request, res: Response) => {
     const currentUser = await User.findOne({ _id: req.userId });
     if (!currentUser) {
       return res.status(404).json({ message: "user not found" });
-    } 
-    res.json(currentUser)// pass currentUser
+    }
+    res.json(currentUser); // pass currentUser
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Somethiong went wrong" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };
 export default {
   createCurrentUser,
-  updateCurrentUser, 
-  getCurrentUser, 
+  updateCurrentUser,
+  getCurrentUser,
 };
