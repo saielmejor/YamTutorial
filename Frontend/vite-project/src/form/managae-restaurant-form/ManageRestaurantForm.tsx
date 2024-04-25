@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@/components/ui/form";
 import DetailsSection from "./DetailsSection";
 import { Separator } from "@/components/ui/separator";
+import CuisineSection from "../CuisineSection";
 
 type restaurantFormData = z.infer<typeof formSchema>;
 const formSchema = z.object({
@@ -58,6 +59,7 @@ function ManageRestaurantForm({onSave,isLoading}: Props) {
       >
         <DetailsSection /> 
         <Separator/> 
+        <CuisineSection/> 
       </form>
     </Form>
   );
