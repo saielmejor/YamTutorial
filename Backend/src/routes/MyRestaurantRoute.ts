@@ -1,4 +1,4 @@
-import express from "express"; 
+ import express from "express"; 
 import multer from "multer";
 import MyRestaurantController from "../controllers/MyRestaurantController";
 import { jwtCheck, jwtParse } from "../middleware/auth";
@@ -17,8 +17,12 @@ const upload=multer({
 
     }
  })
+
+ // api to get restaurant page 
+
+ router.get("/", jwtCheck,jwtParse,MyRestaurantController.getMyRestaurant)
 //api/my/restaurant
-//anytime we receive a post request, we will upload a imagefile  
+//anytime we receive a post request, we will upload a imagefile   
 router.post("/", upload.single("imageFile"),validateMyRestaurantRequest,jwtCheck,jwtParse,MyRestaurantController.createMyRestaurant)
 
 export default router

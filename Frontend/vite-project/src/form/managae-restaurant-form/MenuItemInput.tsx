@@ -1,8 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import {
-    FormControl,
+  FormControl,
   FormField,
   FormItem,
   FormLabel,
@@ -23,24 +21,45 @@ function MenuItemInput({ index, removeMenuItem }: Props) {
       <FormField
         control={control}
         name={`menuItems.${index}.name`}
-        render={({ field }) =>(<FormItem>
+        render={({ field }) => (
+          <FormItem>
             <FormLabel className="flex items-center gap-1">
-                Name <FormMessage />
+              Name <FormMessage />
             </FormLabel>
-            <FormControl> <Input {...field} placeholder="Cheese pizza " className="bg-white"></Input>  </FormControl>
-        </FormItem>) }
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="Cheese pizza "
+                className="bg-white"
+              />
+            </FormControl>
+          </FormItem>
+        )}
       />
-         <FormField
+      <FormField
         control={control}
         name={`menuItems.${index}.price`}
-        render={({ field }) =>(<FormItem>
+        render={({ field }) => (
+          <FormItem>
             <FormLabel className="flex items-center gap-1">
-                Price（￥）<FormMessage />
+              Price（$）
+              <FormMessage />
             </FormLabel>
-            <FormControl> <Input {...field} placeholder="8.00" className="bg-white"></Input>  </FormControl>
-        </FormItem>) }
+            <FormControl>
+        
+              <Input {...field} placeholder="8.00" className="bg-white" />
+            </FormControl>
+          </FormItem>
+        )}
       />
-      <Button type="button" onClick={removeMenuItem} className=""></Button>
+      <Button
+        type="button"
+        onClick={removeMenuItem}
+        className="bg-red-500 max-h-fit"
+      >
+        {" "}
+        Remove{" "}
+      </Button>
     </div>
   );
 }

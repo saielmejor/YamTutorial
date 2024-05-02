@@ -1,8 +1,8 @@
 import { FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { cuisineList } from "@/config/restaurant-options-config";
-import React from "react";
+
 import { useFormContext } from "react-hook-form";
-import CuisineCheckbox from "./managae-restaurant-form/CuisineCheckbox";
+import CuisineCheckbox from "./CuisineCheckbox";
 
 export default function CuisineSection() {
   const { control } = useFormContext();

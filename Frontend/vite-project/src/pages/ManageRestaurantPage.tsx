@@ -1,8 +1,10 @@
+import { useCreateMyRestaurant } from '@/api/MyRestaurantApi'
 import ManageRestaurantForm from '@/form/managae-restaurant-form/ManageRestaurantForm'
 
 
-export default function ManageRestaurantPage() {
-  return <ManageRestaurantForm onSave={function (restaurantFormData: FormData): void {
-      throw new Error('Function not implemented.')
-  } } isLoading={false}/> 
+const ManageRestaurantPage=()=> {
+  const {createRestaurant,isLoading}=useCreateMyRestaurant()
+  return <ManageRestaurantForm onSave={createRestaurant } isLoading={isLoading} /> 
+  
 }
+export default ManageRestaurantPage
