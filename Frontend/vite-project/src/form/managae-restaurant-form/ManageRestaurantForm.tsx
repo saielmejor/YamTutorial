@@ -9,8 +9,9 @@ import MenuSection from "./MenuSection";
 import ImageSection from "./ImageSection";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import { Restaurant } from "@/types";
 
-type restaurantFormData = z.infer<typeof formSchema>;
 const formSchema = z.object({
   restaurantName: z.string({
     required_error: " restaurant is required",
@@ -44,10 +45,11 @@ const formSchema = z.object({
 type RestaurantFormData = z.infer<typeof formSchema>;
 
 type Props = {
+  restaurant?: Restaurant;
   onSave: (restaurantFormData: FormData) => void;
   isLoading: boolean;
 };
-function ManageRestaurantForm({ onSave, isLoading }: Props) {
+function ManageRestaurantForm({ onSave, isLoading, restaurant }: Props) {
   const form = useForm<RestaurantFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,6 +57,27 @@ function ManageRestaurantForm({ onSave, isLoading }: Props) {
       menuItems: [{ name: "", price: 0 }],
     },
   });
+  // use effect to populate restaurant data in the form
+  useEffect(() => {
+    if (!restaurant) {
+      return;
+    }
+    const deliveryPriceFormatted=parseInt((restaurant.deliveryPrice/100).toFixed(2))
+
+    const menuItemsFormatted=restaurant.menuItems.map((item)=>({ 
+      ...item,
+      price:parseInt((item.price/100).toFixed(2)) 
+       
+    }))
+
+    const updatedRestaurant={
+      ...restaurant, 
+      deliveryPrice:deliveryPriceFormatted, 
+      menuItems: menuItemsFormatted
+    }; 
+    form.reset(updatedRestaurant)
+  }, [form,restaurant]);
+
   const onSubmit = (formDataJson: RestaurantFormData) => {
     //TODO onver formDataJson to a new FormData object
     const formData = new FormData();
@@ -97,10 +120,10 @@ function ManageRestaurantForm({ onSave, isLoading }: Props) {
         <DetailsSection />
         <Separator />
         <CuisineSection />
-        <Separator/> 
-        <MenuSection/>
         <Separator />
-        <ImageSection/> 
+        <MenuSection />
+        <Separator />
+        <ImageSection />
         {isLoading ? <LoadingButton /> : <Button type="submit">Submit</Button>}
       </form>
     </Form>

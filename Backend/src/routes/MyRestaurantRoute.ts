@@ -25,4 +25,5 @@ const upload=multer({
 //anytime we receive a post request, we will upload a imagefile   
 router.post("/", upload.single("imageFile"),validateMyRestaurantRequest,jwtCheck,jwtParse,MyRestaurantController.createMyRestaurant)
 
+router.put("/",upload.single("imageFile"),validateMyRestaurantRequest,jwtCheck,jwtParse,MyRestaurantController.updateMyRestaurant )
 export default router
