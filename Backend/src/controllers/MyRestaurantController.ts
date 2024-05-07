@@ -30,18 +30,13 @@ const createMyRestaurant = async (req: Request, res: Response) => {
         // data uri 
     }
 
-    const image=req.file as Express.Multer.File // request file from multer 
-  
+   
 
-    //convert the image to base64 
-
-    const base64Image=Buffer.from(image.buffer).toString("base64"); 
-    const dataURI= `data:${image.mimetype};base64,${base64Image}` // data uri image 
-    const uploadResponse=await cloudinary.v2.uploader.upload(dataURI) 
-
+    
+    const imageUrl=await uploadImage(req.file as Express.Multer.File)
     const restaurant =new Restaurant(req.body); 
     //add validation 
-    restaurant.imageUrl=uploadResponse.url 
+    restaurant.imageUrl=imageUrl ;  
     restaurant.user=new mongoose.Types.ObjectId(req.userId) ; 
     restaurant.lastUpdate=new Date()
 
@@ -64,11 +59,37 @@ const updateMyRestaurant=async(req:Request,res:Response)=>{
     }
 
     restaurant.restaurantName=req.body.restaurantName ; 
-    
+    restaurant.city=req.body.city; 
+    restaurant.country=req.body.country; 
+    restaurant.deliveryPrice=req.body.deliveryPrice; 
+    restaurant.estimatedDeliveryTime=req.body.estimatedDeliveryTime; 
+    restaurant.cuisines=req.body.cuisines; 
+    restaurant.menuItems=req.body.menuItems; 
+    restaurant.lastUpdate=new Date() 
+
+    if(req.file){ 
+      const imageUrl=await uploadImage(req.file as Express.Multer.File) 
+      restaurant.imageUrl=imageUrl; 
+    }
+    await restaurant.save() 
+    res.status(200).send(restaurant)
+
   }catch(error){ 
     console.log("error",error) 
     res.status(500).json({message:"Something went wrong"})
   }
+}
+
+const uploadImage=async(file:Express.Multer.File)=>{ 
+  const image=file // request file from multer 
+  
+
+    //convert the image to base64 
+
+    const base64Image=Buffer.from(image.buffer).toString("base64"); 
+    const dataURI= `data:${image.mimetype};base64,${base64Image}` // data uri image 
+    const uploadResponse=await cloudinary.v2.uploader.upload(dataURI) 
+    return uploadResponse.url;  //returns the url  
 }
 
 export default{ 
