@@ -128,7 +128,7 @@ function UserProfileForm({ onSave, isLoading, currentUser }: props) {
             Submit
           </Button>
         )}
-      </form>{" "}
+      </form>
     </Form>
   );
 }
