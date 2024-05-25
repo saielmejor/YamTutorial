@@ -20,7 +20,7 @@ function SearchResultInfo({ total, city }:Props) {
           Change Location
         </Link>
       </span> 
-      insert sort dropdown here 
+    
     </div>
   );
 }
