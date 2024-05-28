@@ -6,6 +6,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import ManageRestaurantPage from "./pages/ManageRestaurantPage";
 import SearchPage from "./pages/SearchPage";
+import DetailPage from "./pages/DetailPage";
 
 const AppRoutes = () => {
   return (
@@ -14,25 +15,21 @@ const AppRoutes = () => {
         path="/"
         element={
           <Layout showHero={true}>
-    
             <HomePage />
           </Layout>
         }
-      >
- 
-      </Route>
+      ></Route>
       {/* add a layout and add a userprofilepage  */}
       <Route element={<ProtectedRoute />}>
         <Route
           path="/user-profile"
           element={
             <Layout>
-        
               <UserProfilePage />
             </Layout>
           }
         ></Route>{" "}
-         <Route
+        <Route
           path="/manage-restaurant"
           element={
             <Layout>
@@ -45,8 +42,27 @@ const AppRoutes = () => {
       <Route path="*" element={<Navigate to="/"></Navigate>}>
         {" "}
       </Route>
-      <Route path="/auth-callback" element={<AuthCallbackPage />}></Route> 
-      <Route path="/search/:city" element={<Layout showHero={false}><SearchPage/> </Layout>}> </Route>
+      <Route path="/auth-callback" element={<AuthCallbackPage />}></Route>
+      <Route
+        path="/search/:city"
+        element={
+          <Layout showHero={false}>
+            <SearchPage />{" "}
+          </Layout>
+        }
+      >
+        {" "}
+      </Route>
+      <Route
+        path="/detail/:restaurantId"
+        element={
+          <Layout showHero={false}>
+            <DetailPage />{" "}
+          </Layout>
+        }
+      >
+        {" "}
+      </Route>
     </Routes>
   );
 };
