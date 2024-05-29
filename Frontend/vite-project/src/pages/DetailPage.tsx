@@ -3,12 +3,13 @@ import MenuItemed from "@/components/MenuItem";
 import OrderSummary from "@/components/OrderSummary";
 
 import RestaurantInfo from "@/components/RestaurantInfo";
-import { Card } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { useState } from "react";
 
 import { useParams } from "react-router-dom";
 import { MenuItem } from "@/types";
+import CheckoutButton from "@/components/CheckoutButton";
 
 export type CartItem = {
   _id: string;
@@ -22,7 +23,11 @@ export default function DetailPage() {
   const { restaurantId } = useParams();
   const { restaurant, isLoading } = useGetRestaurant(restaurantId);
 
-  const [cartItems, setCartItems] = useState<CartItem[]>([]); // initialize the state with an empty array
+  const [cartItems, setCartItems] = useState<CartItem[]>(()=>{ 
+    const storedCartItems=sessionStorage.getItem(`cartItems-${restaurantId}`)
+    return storedCartItems? JSON.parse(storedCartItems):[] 
+    //parse cartItem array  if the session exist
+  }); // initialize the state with an empty array
 
   const addToCart = (menuItem: MenuItem) => {
     setCartItems((prevCartItems) => {
@@ -45,6 +50,9 @@ export default function DetailPage() {
             }
         ]
       }
+
+      //sessopm storage 
+      sessionStorage.setItem(`cartItems-${restaurantId}`,JSON.stringify(updatedCartItems))
       // 3 if item is not in cart , add it as a new item
       return updatedCartItems
     });
@@ -53,6 +61,10 @@ export default function DetailPage() {
   const removeFromCart=(cartItem:CartItem)=>{ 
     setCartItems((prevCartItems)=>{ 
         const updatedCartItems=prevCartItems.filter((item)=> cartItem._id !== item._id)
+
+
+      //sessopm storage 
+      sessionStorage.setItem(`cartItems-${restaurantId}`,JSON.stringify(updatedCartItems)) 
          return updatedCartItems
     })
   }
@@ -78,7 +90,10 @@ export default function DetailPage() {
         </div>
         <div>
           <Card>
-            <OrderSummary restaurant={restaurant} cartItems={cartItems} removeFromCart={removeFromCart} />
+            <OrderSummary restaurant={restaurant} cartItems={cartItems} removeFromCart={removeFromCart}  /> 
+            <CardFooter> 
+                <CheckoutButton/> 
+            </CardFooter>
           </Card>
         </div>
       </div>
