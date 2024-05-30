@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { MenuItem } from "@/types";
 import CheckoutButton from "@/components/CheckoutButton";
+import { UserFormData } from "@/user-profile-form/UserProfileForm";
 
 export type CartItem = {
   _id: string;
@@ -72,6 +73,10 @@ export default function DetailPage() {
     return "Loading...";
   }
 
+  const onCheckout=(userFormData:UserFormData)=>{ 
+    console.log("userFormData",userFormData)
+  }
+
   return (
     <div className="flex flex-col gap-10">
       <AspectRatio ratio={16 / 5}>
@@ -92,7 +97,7 @@ export default function DetailPage() {
           <Card>
             <OrderSummary restaurant={restaurant} cartItems={cartItems} removeFromCart={removeFromCart}  /> 
             <CardFooter> 
-                <CheckoutButton/> 
+                <CheckoutButton disabled={cartItems.length===0} onCheckout={onCheckout}/> 
             </CardFooter>
           </Card>
         </div>

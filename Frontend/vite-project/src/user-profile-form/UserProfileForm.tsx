@@ -16,7 +16,7 @@ import LoadingButton from "@/components/LoadingButton";
 import { User } from "@/types";
 import { useEffect } from "react";
 
-type UserFormData = z.infer<typeof formSchema>; //z.infer used to detect the type
+export type UserFormData = z.infer<typeof formSchema>; //z.infer used to detect the type
 const formSchema = z.object({
   email: z.string().optional(), // add optional,
   name: z.string().min(1, { message: "name is required" }), // needs to have at least one character
@@ -29,9 +29,11 @@ type props = {
   onSave: (userProfileData: UserFormData) => void;
   isLoading: boolean;
   currentUser: User;
+  title?:string; 
+  buttonText?: string
 };
 //destructuring to capture onSave and is Loading
-function UserProfileForm({ onSave, isLoading, currentUser }: props) {
+function UserProfileForm({ onSave, isLoading, currentUser ,title= "User Profile" , buttonText= "Submit"}: props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema), 
   
@@ -48,7 +50,7 @@ function UserProfileForm({ onSave, isLoading, currentUser }: props) {
         className="space-y-4 bg-gray-50 rounded-lg md:p-10 "
       >
         <div>
-          <h2 className="text-2xl font-bold">User Profile Form </h2>
+          <h2 className="text-2xl font-bold">{title} </h2>
           <FormDescription>
             {" "}
             View and change your profile information her{" "}
@@ -125,7 +127,7 @@ function UserProfileForm({ onSave, isLoading, currentUser }: props) {
           <LoadingButton />
         ) : (
           <Button type="submit" className="bg-orange-500">
-            Submit
+            {buttonText}
           </Button>
         )}
       </form>
