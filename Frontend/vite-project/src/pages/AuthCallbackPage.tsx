@@ -4,23 +4,21 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AuthCallbackPage = () => {
-    const navigate=useNavigate()
-  //access auth token
+  const navigate = useNavigate();
+  const { user } = useAuth0();
+  const { createUser } = useCreateMyUser();
 
-  const { user } = useAuth0(); // access login user
-  const { createUser } = useCreateMyUser(); 
+  const hasCreatedUser = useRef(false);
 
-  const hasCreatedUser=useRef(false) 
-  
   useEffect(() => {
-    if (user?.sub && user?.email &&!hasCreatedUser.current) {
-      createUser({ auth0Id: user.sub, email: user.email }); 
-      hasCreatedUser.current=true //creates the new user 
-    }  
-    //navigates to home
-    navigate("/")
-  }, [createUser,navigate,user]);
-  return <> Loading... </>
+    if (user?.sub && user?.email && !hasCreatedUser.current) {
+      createUser({ auth0Id: user.sub, email: user.email });
+      hasCreatedUser.current = true;
+    }
+    navigate("/");
+  }, [createUser, navigate, user]);
+
+  return <>Loading...</>;
 };
 
 export default AuthCallbackPage;

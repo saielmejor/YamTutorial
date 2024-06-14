@@ -4,6 +4,8 @@ import { jwtCheck, jwtParse } from "../middleware/auth";
 import { validateMyUserRequest } from "../middleware/validation";
 
 const router = express.Router();
+
+// /api/my/user
 router.get("/", jwtCheck, jwtParse, MyUserController.getCurrentUser);
 router.post("/", jwtCheck, MyUserController.createCurrentUser);
 router.put(
@@ -12,5 +14,6 @@ router.put(
   jwtParse,
   validateMyUserRequest,
   MyUserController.updateCurrentUser
-); // check the tokens
+);
+
 export default router;

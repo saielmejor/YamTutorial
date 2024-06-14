@@ -9,7 +9,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const useGetMyUser=()=>{ 
 const {getAccessTokenSilently}=useAuth0()  
 //fetch request
- const getMyUserRequest=async ():Promise<User> => {
+ const getMyUserRequest=async() :Promise<User> => {
     const accessToken=await getAccessTokenSilently() 
     const response=await fetch(`${API_BASE_URL}/api/my/user`,{ 
         method:"GET",
@@ -42,7 +42,10 @@ export const useCreateMyUser = () => {
   // create user request
   const createMyUserRequest = async (user: CreateUserRequest) => {
     //retrieves the access token
+
+    console.log(user.auth0Id)
     const accessToken = await getAccessTokenSilently();
+    console.log(accessToken)
     const response = await fetch(`${API_BASE_URL}/api/my/user`, {
       method: "POST",
       headers: {
@@ -50,7 +53,9 @@ export const useCreateMyUser = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
+      
     });
+   
     if (!response.ok) {
       throw new Error("Failed to create user");
     }
@@ -83,7 +88,7 @@ export const useUpdateMyUser = () => {
   const updateMyUserRequest = async (formData: UpdateMyUserRequest) => {
     //fetch token
     const accessToken = await getAccessTokenSilently();
-    const response = await fetch(`${API_BASE_URL}/api/my/user`, {
+    const response = await fetch(`${API_BASE_URL}/api/my/user`, { 
       method: "PUT",
       headers: {
         Authorization: `Bearer ${accessToken}`,
