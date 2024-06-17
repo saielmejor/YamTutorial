@@ -31,6 +31,7 @@ router.get(
 );
 //anytime we receive a post request, we will upload a imagefile
 
+router.patch("/order/:orderId/status",jwtCheck,jwtParse,MyRestaurantController.updateOrderStatus)
 router.post(
   "/",
   upload.single("imageFile"),
